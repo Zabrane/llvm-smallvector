@@ -112,7 +112,24 @@
  * From llvm/Support/Compiler.h
  */
 #ifndef LLVM_NODISCARD
+#if __has_cpp_attribute(nodiscard)
 #define LLVM_NODISCARD [[nodiscard]]
+#else
+#define LLVM_NODISCARD
+#endif
+#endif
+
+/*
+ * From llvm/Support/type_traits.h
+ */
+#ifndef __has_feature
+#define LLVM_DEFINED_HAS_FEATURE
+#define __has_feature(x) 0
+#endif
+
+#ifndef __has_builtin
+#define LLVM_DEFINED_HAS_BUILTIN
+#define __has_builtin(x) 0
 #endif
 
 /// \macro LLVM_GNUC_PREREQ
@@ -159,13 +176,6 @@
 #define LLVM_ATTRIBUTE_ALWAYS_INLINE
 #endif
 
-/*
- * From llvm/Support/type_traits.h
- */
-#ifndef __has_feature
-#define LLVM_DEFINED_HAS_FEATURE
-#define __has_feature(x) 0
-#endif
 
 namespace llvm {
 
@@ -1376,6 +1386,10 @@ namespace std {
 
 #ifdef LLVM_DEFINED_HAS_FEATURE
 #undef __has_feature
+#endif
+
+#ifndef LLVM_DEFINED_HAS_BUILTIN
+#undef __has_builtin
 #endif
 
 #ifdef LLVM_SMALL_VECTOR_IMPLEMENTATION
