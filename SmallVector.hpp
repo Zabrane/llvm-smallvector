@@ -1388,7 +1388,7 @@ namespace std {
 #undef __has_feature
 #endif
 
-#ifndef LLVM_DEFINED_HAS_BUILTIN
+#ifdef LLVM_DEFINED_HAS_BUILTIN
 #undef __has_builtin
 #endif
 
